@@ -3,77 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riddle · I am not alive</title>
+  <title>🧩 Riddle Quest · 15 Levels</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Segoe UI', system-ui, sans-serif;
     }
     body {
       min-height: 100vh;
-      background: linear-gradient(145deg, #1a1e2c 0%, #2b2f44 100%);
+      background: linear-gradient(145deg, #0f121f 0%, #1a1e30 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1.5rem;
+      padding: 1.2rem;
     }
-    .game-card {
-      max-width: 560px;
+    .game-container {
+      max-width: 680px;
       width: 100%;
-      background: rgba(22, 26, 40, 0.85);
+      background: rgba(20, 24, 40, 0.92);
       backdrop-filter: blur(4px);
-      border-radius: 3.5rem 3.5rem 2rem 2rem;
-      box-shadow: 0 25px 50px -8px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,215,120,0.15);
-      padding: 2rem 1.8rem 2.2rem;
-      transition: all 0.2s;
-      border: 1px solid #4a3f2e;
+      border-radius: 3rem 3rem 1.8rem 1.8rem;
+      border: 1px solid #4a4030;
+      box-shadow: 0 30px 60px -10px rgba(0,0,0,0.9), 0 0 0 1px #6a5c44;
+      padding: 2rem 1.8rem 2rem;
+      transition: all 0.3s;
     }
-    .riddle-header {
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .level-badge {
+      background: #2a2438;
+      padding: 0.3rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid #7a6a4a;
+      color: #e6dbbc;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      box-shadow: inset 0 1px 0 #4a3f2a;
+    }
+    .progress-wrap {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 1.6rem;
-      border-bottom: 1px dashed #6a5c44;
-      padding-bottom: 1rem;
-    }
-    .riddle-header h2 {
-      color: #f2e3c4;
-      font-weight: 400;
-      letter-spacing: 2px;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      background: #2f2a1f;
-      padding: 0.3rem 1.2rem;
-      border-radius: 40px;
-      border: 1px solid #b79b6b;
-      box-shadow: inset 0 1px 0 #6a5c44;
-    }
-    .riddle-icon {
-      font-size: 1.7rem;
-      margin-left: auto;
-      opacity: 0.7;
-    }
-    .riddle-box {
-      background: #0f121b;
-      border-radius: 2.5rem;
-      padding: 1.8rem 1.5rem;
-      box-shadow: inset 0 6px 12px rgba(0,0,0,0.6), 0 2px 0 #52462e;
+      gap: 0.8rem;
+      background: #141a26;
+      padding: 0.2rem 1rem 0.2rem 0.6rem;
+      border-radius: 60px;
       border: 1px solid #3d3524;
-      margin-bottom: 2rem;
+    }
+    .progress-steps {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .step-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #2f2a3a;
+      border: 1px solid #4d422e;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #7a6a4a;
+    }
+    .step-dot.done {
+      background: #5f8b4b;
+      border-color: #8fc77a;
+      box-shadow: 0 0 8px #6aaa4a;
+      color: #e4f0d0;
+    }
+    .step-dot.active {
+      background: #d4b87a;
+      border-color: #f0d89a;
+      box-shadow: 0 0 12px #e6c87a;
+      color: #1a1e2a;
+      font-weight: 700;
+    }
+    .step-dot.wrong {
+      background: #a5453a;
+      border-color: #d97a6a;
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      25%{ transform: translateX(-6px); }
+      75%{ transform: translateX(6px); }
+    }
+    .riddle-card {
+      background: #121725;
+      border-radius: 2.2rem;
+      padding: 1.8rem 1.5rem;
+      border: 1px solid #3d3524;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.7);
+      margin: 0.8rem 0 1.2rem;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .riddle-number {
+      color: #7a6a4a;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px dashed #2f2a1f;
+      padding-bottom: 0.4rem;
     }
     .riddle-text {
       color: #efe6d3;
-      font-size: 1.6rem;
-      line-height: 1.5;
+      font-size: 1.5rem;
+      line-height: 1.6;
       font-weight: 300;
       text-align: center;
-      letter-spacing: 0.5px;
       word-break: break-word;
     }
-    .riddle-text span {
-      display: inline-block;
+    .riddle-text .highlight {
       background: #272a3a;
       padding: 0.1rem 0.8rem;
       border-radius: 40px;
@@ -81,16 +135,16 @@
       border: 1px solid #5a4d30;
       font-weight: 400;
     }
-    .hint-line {
-      color: #b7a78a;
+    .hint-area {
+      color: #a09278;
       text-align: center;
-      font-size: 0.9rem;
-      margin-top: 0.8rem;
-      border-top: 1px solid #3d3524;
-      padding-top: 0.8rem;
+      font-size: 0.85rem;
+      margin-top: 0.6rem;
+      border-top: 1px solid #2f2a1f;
+      padding-top: 0.6rem;
       letter-spacing: 0.3px;
     }
-    .answer-area {
+    .input-area {
       background: #191e2b;
       border-radius: 4rem;
       padding: 0.2rem 0.2rem 0.2rem 1.8rem;
@@ -99,46 +153,44 @@
       gap: 0.4rem;
       border: 1px solid #685b42;
       box-shadow: inset 0 2px 6px #0a0c12;
-      margin: 1.8rem 0 1.2rem;
+      margin: 1.2rem 0 0.8rem;
     }
-    .answer-area input {
+    .input-area input {
       flex: 1;
       background: transparent;
       border: none;
       padding: 0.9rem 0.2rem;
       color: #f5e7cf;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       outline: none;
       min-width: 0;
-      letter-spacing: 0.5px;
     }
-    .answer-area input::placeholder {
-      color: #5b5370;
+    .input-area input::placeholder {
+      color: #4a4260;
       font-weight: 300;
-      font-size: 1rem;
-      letter-spacing: 0.3px;
+      font-size: 0.95rem;
     }
-    .answer-area button {
+    .input-area button {
       background: #c9b484;
       border: none;
-      padding: 0.8rem 1.8rem;
+      padding: 0.7rem 1.8rem;
       border-radius: 40px;
       font-weight: 600;
       color: #171c27;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 0 #6d5d3e, 0 2px 8px rgba(0,0,0,0.5);
-      letter-spacing: 1px;
+      transition: all 0.15s;
+      box-shadow: 0 4px 0 #6d5d3e;
       border: 1px solid #e5cf9c;
       white-space: nowrap;
+      letter-spacing: 0.5px;
     }
-    .answer-area button:hover {
+    .input-area button:hover {
       transform: translateY(-2px);
       background: #dbcaa0;
       box-shadow: 0 6px 0 #6d5d3e;
     }
-    .answer-area button:active {
+    .input-area button:active {
       transform: translateY(4px);
       box-shadow: 0 1px 0 #6d5d3e;
     }
@@ -148,12 +200,12 @@
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 400;
-      padding: 0.4rem 0.8rem;
+      padding: 0.3rem 0.8rem;
       border-radius: 60px;
-      margin: 0.5rem 0 0.2rem;
-      transition: all 0.15s;
+      margin: 0.2rem 0 0.6rem;
+      transition: 0.15s;
     }
     .feedback.correct {
       color: #b3e4b0;
@@ -164,215 +216,471 @@
       color: #f7b0a0;
       background: #3f1f1f;
       border: 1px solid #bf6b5a;
+      animation: shake 0.4s;
     }
     .feedback.neutral {
       color: #b3a78b;
     }
-    .install-row {
-      margin-top: 2.2rem;
+    .feedback.level-done {
+      color: #f5e7a0;
+      background: #2f3a1f;
+      border: 1px solid #b7a04a;
+    }
+    .status-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      border-top: 1px solid #3d3524;
-      padding-top: 1.2rem;
+      align-items: center;
+      margin-top: 1.2rem;
       flex-wrap: wrap;
       gap: 0.6rem;
-    }
-    .install-badge {
-      background: #191e2b;
-      border-radius: 60px;
-      padding: 0.4rem 1.2rem 0.4rem 1.6rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border: 1px solid #6a5c44;
-    }
-    .install-badge span {
-      color: #dac29c;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      font-size: 0.9rem;
-    }
-    .install-badge .badge-icon {
-      background: #c9b484;
-      color: #121624;
-      border-radius: 40px;
-      padding: 0.2rem 1rem;
-      font-weight: 600;
-      font-size: 0.8rem;
-      letter-spacing: 0.5px;
-    }
-    .game-meta {
-      display: flex;
-      gap: 0.8rem;
-      align-items: center;
-      color: #8b7d62;
-      font-size: 0.8rem;
-    }
-    .game-meta .pill {
-      background: #2a2a3a;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
-      border: 1px solid #4d422e;
-    }
-    .footnote {
-      color: #6b604b;
-      margin-top: 1rem;
-      text-align: center;
-      font-size: 0.7rem;
-      letter-spacing: 0.8px;
       border-top: 1px solid #2f2a1f;
-      padding-top: 0.8rem;
+      padding-top: 1rem;
     }
-    .reset-link {
-      color: #b79b6b;
+    .reset-btn {
       background: none;
-      border: none;
-      text-decoration: underline dotted;
+      border: 1px solid #4d422e;
+      color: #b7a78a;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
       cursor: pointer;
       font-size: 0.8rem;
-      padding: 0.2rem 0.4rem;
-      border-radius: 20px;
+      transition: 0.2s;
+    }
+    .reset-btn:hover {
+      background: #2f2a1f;
+      color: #efe6d3;
+      border-color: #7a6a4a;
+    }
+    .game-over {
+      color: #e07a6a;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .win-text {
+      color: #b3e4b0;
+      font-weight: 600;
     }
     @media (max-width: 480px) {
-      .riddle-text { font-size: 1.3rem; }
-      .answer-area { flex-wrap: wrap; background: transparent; padding: 0; border: none; box-shadow: none; gap: 0.6rem; }
-      .answer-area input { background: #191e2b; border-radius: 40px; padding: 0.9rem 1.2rem; border: 1px solid #685b42; width: 100%; }
-      .answer-area button { width: 100%; justify-content: center; }
+      .riddle-text { font-size: 1.2rem; }
+      .input-area { flex-wrap: wrap; background: transparent; padding: 0; border: none; box-shadow: none; gap: 0.6rem; }
+      .input-area input { background: #191e2b; border-radius: 40px; padding: 0.9rem 1.2rem; border: 1px solid #685b42; width: 100%; }
+      .input-area button { width: 100%; justify-content: center; }
+      .step-dot { width: 16px; height: 16px; font-size: 6px; }
     }
   </style>
 </head>
 <body>
-  <div class="game-card" role="main">
-    <div class="riddle-header">
-      <h2>⚡ RIDDLE</h2>
-      <div class="riddle-icon">💀</div>
-    </div>
-
-    <div class="riddle-box">
-      <div class="riddle-text">
-        मैं जीवित नहीं हूं. <br>
-        लेकिन मैं मर सकता हूँ। <br>
-        <span>मैं कौन हूँ?</span>
+  <div class="game-container" id="app">
+    <div class="top-bar">
+      <div class="level-badge" id="levelDisplay">🏆 LEVEL 1 / 15</div>
+      <div class="progress-wrap">
+        <span style="color:#8a7a5a; font-size:0.7rem; letter-spacing:1px;">⚡</span>
+        <div class="progress-steps" id="progressDots"></div>
       </div>
-      <div class="hint-line">⚡ फोन · बैटरी · Bone Treasure</div>
     </div>
 
-    <div class="answer-area">
-      <input type="text" id="answerInput" placeholder="type your answer..." autocomplete="off" aria-label="Your answer">
+    <div class="riddle-card">
+      <div class="riddle-number" id="riddleCounter">Q. 1 / 10</div>
+      <div class="riddle-text" id="riddleText">Loading riddle...</div>
+      <div class="hint-area" id="hintText">💡 hint will appear here</div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="answerInput" placeholder="type your answer..." autocomplete="off">
       <button id="checkBtn">→ CHECK</button>
     </div>
 
-    <div id="feedback" class="feedback neutral">💡 think about what can “die” but isn’t alive</div>
+    <div id="feedback" class="feedback neutral">✨ answer correctly to progress</div>
 
-    <div class="install-row">
-      <div class="install-badge">
-        <span>📱 Bone Treasure</span>
-        <span class="badge-icon">Casual</span>
-      </div>
-      <div class="game-meta">
-        <span class="pill">⬇ Install now</span>
-        <span>👤 Spencer Neylon</span>
-        <span>👤 Sarah</span>
-      </div>
-    </div>
-
-    <div class="footnote">
-      <button class="reset-link" id="resetHintBtn">↺ reset hint</button>
-      <span style="margin:0 0.6rem;">·</span>
-      <span>riddle from 2026 · 🕯️</span>
+    <div class="status-row">
+      <button class="reset-btn" id="resetGameBtn">⟳ restart game</button>
+      <span id="levelStatus" style="color:#8a7a5a; font-size:0.8rem;">⏳ level 1 · 0/10</span>
     </div>
   </div>
 
   <script>
     (function() {
+      // ---------- RIDDLE DATABASE: 15 levels, each with 10 riddles ----------
+      const LEVELS = [];
+
+      // Helper: create a riddle object
+      function r(q, a, hint = '') {
+        return { question: q, answer: a.toLowerCase().trim(), hint: hint };
+      }
+
+      // ----- LEVEL 1: Easy (basic objects) -----
+      LEVELS.push([
+        r("I have hands but no fingers. What am I?", "clock", "⏰ timekeeper"),
+        r("I have a face but no eyes. What am I?", "clock", "⏰ face and hands"),
+        r("I have keys but no locks. What am I?", "piano", "🎹 musical instrument"),
+        r("I have a neck but no head. What am I?", "bottle", "🍾 holds liquid"),
+        r("I have a spine but no bones. What am I?", "book", "📖 has pages"),
+        r("I have a ring but no finger. What am I?", "telephone", "📞 old phone"),
+        r("I have a sole but no foot. What am I?", "shoe", "👟 wear me"),
+        r("I have a bed but never sleep. What am I?", "river", "🌊 flows water"),
+        r("I have a mouth but never eat. What am I?", "river", "🌊 flows water"),
+        r("I have a head but no body. What am I?", "pin", "📌 sharp object")
+      ]);
+
+      // ----- LEVEL 2: Nature & animals -----
+      LEVELS.push([
+        r("What has a bark but no bite?", "tree", "🌳 grows in forest"),
+        r("What has a trunk but no leaves?", "elephant", "🐘 big animal"),
+        r("What has a mane but no hair?", "lion", "🦁 king of jungle"),
+        r("What has a shell but no house?", "turtle", "🐢 slow animal"),
+        r("What has wings but cannot fly?", "penguin", "🐧 swims in cold"),
+        r("What has a tail but no body?", "comet", "☄️ space object"),
+        r("What has a eye but cannot see?", "needle", "🪡 sewing tool"),
+        r("What has a tongue but cannot taste?", "shoe", "👟 has tongue part"),
+        r("What has a head and tail but no body?", "coin", "🪙 heads or tails"),
+        r("What has a heart but no organs?", "card", "🃏 playing card")
+      ]);
+
+      // ----- LEVEL 3: Food & kitchen -----
+      LEVELS.push([
+        r("I have a skin but no body. What am I?", "potato", "🥔 vegetable"),
+        r("I have a peel but no fruit. What am I?", "banana", "🍌 yellow fruit"),
+        r("I have a core but no center. What am I?", "apple", "🍎 red fruit"),
+        r("I have a shell but no nut. What am I?", "egg", "🥚 breakfast food"),
+        r("I have a crust but no bread. What am I?", "pizza", "🍕 Italian food"),
+        r("I have a seed but no plant. What am I?", "watermelon", "🍉 big fruit"),
+        r("I have a stem but no flower. What am I?", "grape", "🍇 small fruit"),
+        r("I have a cap but no bottle. What am I?", "mushroom", "🍄 fungus"),
+        r("I have a net but no fish. What am I?", "basket", "🧺 holds fruits"),
+        r("I have a bowl but no soup. What am I?", "pipe", "🚬 not food, but ...")
+      ]);
+
+      // ----- LEVEL 4: Body & health -----
+      LEVELS.push([
+        r("I have a nail but no finger. What am I?", "hammer", "🔨 tool"),
+        r("I have a head but no brain. What am I?", "match", "🔥 fire starter"),
+        r("I have a foot but no leg. What am I?", "mountain", "🏔️ tall land"),
+        r("I have a hair but no head. What am I?", "brush", "🪥 cleaning tool"),
+        r("I have a hand but no arm. What am I?", "clock", "⏰ hands move"),
+        r("I have a face but no head. What am I?", "clock", "⏰ face"),
+        r("I have a mouth but no jaw. What am I?", "river", "🌊 mouth of river"),
+        r("I have a nose but no face. What am I?", "plane", "✈️ aircraft nose"),
+        r("I have a back but no spine. What am I?", "chair", "🪑 sits on"),
+        r("I have a arm but no hand. What am I?", "chair", "🪑 armchair")
+      ]);
+
+      // ----- LEVEL 5: Technology & gadgets -----
+      LEVELS.push([
+        r("I have memory but no brain. What am I?", "computer", "💻 stores data"),
+        r("I have a screen but no eyes. What am I?", "tv", "📺 shows images"),
+        r("I have a button but no shirt. What am I?", "remote", "📱 controls tv"),
+        r("I have a plug but no socket. What am I?", "charger", "🔌 charges devices"),
+        r("I have a battery but no energy. What am I?", "phone", "📱 needs charge"),
+        r("I have a chip but no potato. What am I?", "computer", "💻 microchip"),
+        r("I have a port but no ship. What am I?", "laptop", "💻 usb port"),
+        r("I have a mouse but no cat. What am I?", "computer", "🖱️ input device"),
+        r("I have a keyboard but no piano. What am I?", "computer", "⌨️ typing"),
+        r("I have a cloud but no rain. What am I?", "cloud storage", "☁️ online data")
+      ]);
+
+      // ----- LEVEL 6: Vehicles & transport -----
+      LEVELS.push([
+        r("I have wheels but no car. What am I?", "bicycle", "🚲 two wheels"),
+        r("I have a sail but no wind. What am I?", "boat", "⛵ sails on water"),
+        r("I have wings but no bird. What am I?", "airplane", "✈️ flies in sky"),
+        r("I have a engine but no fuel. What am I?", "car", "🚗 needs petrol"),
+        r("I have a horn but no animal. What am I?", "car", "🚗 honks"),
+        r("I have a seat but no chair. What am I?", "bicycle", "🚲 seat"),
+        r("I have a wheel but no truck. What am I?", "steering wheel", "🔄 controls car"),
+        r("I have a brake but no bike. What am I?", "car", "🚗 stops"),
+        r("I have a pedal but no bicycle. What am I?", "piano", "🎹 pedals"),
+        r("I have a gear but no shift. What am I?", "bicycle", "🚲 gears")
+      ]);
+
+      // ----- LEVEL 7: Places & buildings -----
+      LEVELS.push([
+        r("I have a roof but no house. What am I?", "car", "🚗 has roof"),
+        r("I have a door but no room. What am I?", "cupboard", "🗄️ storage"),
+        r("I have a wall but no room. What am I?", "castle", "🏰 fortress"),
+        r("I have a floor but no room. What am I?", "forest", "🌳 forest floor"),
+        r("I have a bridge but no river. What am I?", "nose", "👃 bridge of nose"),
+        r("I have a tower but no castle. What am I?", "clock tower", "🕰️ tall structure"),
+        r("I have a temple but no god. What am I?", "head", "👤 temple on head"),
+        r("I have a bank but no money. What am I?", "river", "🌊 river bank"),
+        r("I have a station but no train. What am I?", "police station", "👮 law"),
+        r("I have a park but no trees. What am I?", "car park", "🅿️ parking lot")
+      ]);
+
+      // ----- LEVEL 8: Abstract & concepts -----
+      LEVELS.push([
+        r("I have a value but no price. What am I?", "time", "⏳ precious"),
+        r("I have a power but no energy. What am I?", "love", "❤️ strong feeling"),
+        r("I have a mind but no brain. What am I?", "idea", "💡 thought"),
+        r("I have a weight but no mass. What am I?", "information", "📊 data"),
+        r("I have a length but no ruler. What am I?", "time", "⏳ duration"),
+        r("I have a number but no math. What am I?", "phone", "📞 phone number"),
+        r("I have a name but no person. What am I?", "title", "📜 designation"),
+        r("I have a date but no calendar. What am I?", "event", "📅 occasion"),
+        r("I have a color but no paint. What am I?", "flag", "🏁 represents country"),
+        r("I have a sound but no voice. What am I?", "music", "🎵 melody")
+      ]);
+
+      // ----- LEVEL 9: Household items -----
+      LEVELS.push([
+        r("I have a handle but no door. What am I?", "cup", "☕ has handle"),
+        r("I have a blade but no knife. What am I?", "fan", "🌀 rotating blade"),
+        r("I have a knob but no door. What am I?", "radio", "📻 tuning knob"),
+        r("I have a glass but no water. What am I?", "glasses", "👓 eye wear"),
+        r("I have a frame but no picture. What am I?", "window", "🪟 glass frame"),
+        r("I have a hook but no fish. What am I?", "hanger", "👕 for clothes"),
+        r("I have a spring but no coil. What am I?", "clock", "⏰ spring mechanism"),
+        r("I have a bell but no church. What am I?", "bicycle", "🚲 bell"),
+        r("I have a chain but no lock. What am I?", "bicycle", "🚲 chain"),
+        r("I have a pump but no water. What am I?", "bicycle", "🚲 pump")
+      ]);
+
+      // ----- LEVEL 10: Mystery & fantasy -----
+      LEVELS.push([
+        r("I have a dragon but no fire. What am I?", "comic", "📖 fantasy story"),
+        r("I have a ghost but no haunt. What am I?", "movie", "🎬 horror film"),
+        r("I have a spell but no magic. What am I?", "word", "🔤 letters"),
+        r("I have a wand but no wizard. What am I?", "conductor", "🎵 orchestra"),
+        r("I have a potion but no effect. What am I?", "medicine", "💊 health"),
+        r("I have a charm but no necklace. What am I?", "bracelet", "📿 jewelry"),
+        r("I have a treasure but no map. What am I?", "chest", "📦 holds gold"),
+        r("I have a monster but no fear. What am I?", "toy", "🧸 plush"),
+        r("I have a hero but no villain. What am I?", "story", "📖 plot"),
+        r("I have a kingdom but no king. What am I?", "chess", "♟️ board game")
+      ]);
+
+      // ----- LEVEL 11: Science & space -----
+      LEVELS.push([
+        r("I have a star but no light. What am I?", "starfish", "⭐ sea animal"),
+        r("I have a planet but no orbit. What am I?", "model", "🌍 globe"),
+        r("I have a moon but no sky. What am I?", "calendar", "📅 phases"),
+        r("I have a comet but no tail. What am I?", "rocket", "🚀 space craft"),
+        r("I have a galaxy but no universe. What am I?", "chocolate", "🍫 galaxy bar"),
+        r("I have a atom but no molecule. What am I?", "particle", "⚛️ tiny"),
+        r("I have a cell but no body. What am I?", "battery", "🔋 power unit"),
+        r("I have a nucleus but no atom. What am I?", "cell", "🧬 biology"),
+        r("I have a gene but no DNA. What am I?", "jeans", "👖 clothing"),
+        r("I have a clone but no human. What am I?", "copy", "📄 duplicate")
+      ]);
+
+      // ----- LEVEL 12: Music & art -----
+      LEVELS.push([
+        r("I have a note but no sound. What am I?", "letter", "✉️ written note"),
+        r("I have a beat but no drum. What am I?", "heart", "❤️ pulse"),
+        r("I have a score but no game. What am I?", "music", "🎵 sheet"),
+        r("I have a scale but no fish. What am I?", "music", "🎵 musical scale"),
+        r("I have a chord but no guitar. What am I?", "music", "🎵 harmony"),
+        r("I have a brush but no paint. What am I?", "artist", "🎨 painter"),
+        r("I have a canvas but no picture. What am I?", "painting", "🖼️ artwork"),
+        r("I have a statue but no stone. What am I?", "sculpture", "🗿 art"),
+        r("I have a museum but no art. What am I?", "building", "🏛️ structure"),
+        r("I have a gallery but no art. What am I?", "hall", "🏛️ exhibition")
+      ]);
+
+      // ----- LEVEL 13: Sports & games -----
+      LEVELS.push([
+        r("I have a ball but no game. What am I?", "globe", "🌍 earth"),
+        r("I have a goal but no sport. What am I?", "aim", "🎯 target"),
+        r("I have a bat but no animal. What am I?", "cricket", "🏏 sport"),
+        r("I have a court but no judge. What am I?", "tennis", "🎾 sport"),
+        r("I have a field but no farmer. What am I?", "football", "⚽ sport"),
+        r("I have a net but no fish. What am I?", "volleyball", "🏐 sport"),
+        r("I have a racket but no noise. What am I?", "tennis", "🎾 sport"),
+        r("I have a team but no players. What am I?", "sport", "🏅 activity"),
+        r("I have a trophy but no winner. What am I?", "cup", "🏆 prize"),
+        r("I have a medal but no soldier. What am I?", "athlete", "🥇 sportsman")
+      ]);
+
+      // ----- LEVEL 14: Nature & environment -----
+      LEVELS.push([
+        r("I have a leaf but no tree. What am I?", "table", "🪑 table leaf"),
+        r("I have a branch but no tree. What am I?", "bank", "🏦 branch office"),
+        r("I have a root but no plant. What am I?", "tooth", "🦷 root canal"),
+        r("I have a bark but no dog. What am I?", "tree", "🌳 bark"),
+        r("I have a forest but no trees. What am I?", "hair", "💇 forest of hair"),
+        r("I have a stream but no water. What am I?", "light", "💡 stream of light"),
+        r("I have a rock but no mineral. What am I?", "music", "🎸 rock music"),
+        r("I have a cloud but no sky. What am I?", "puff", "☁️ cotton"),
+        r("I have a storm but no rain. What am I?", "protest", "✊ storm of anger"),
+        r("I have a wave but no ocean. What am I?", "sound", "🌊 sound wave")
+      ]);
+
+      // ----- LEVEL 15: Advanced mixed -----
+      LEVELS.push([
+        r("I have a life but no death. What am I?", "story", "📖 character lives"),
+        r("I have a death but no life. What am I?", "battery", "🔋 can die"),
+        r("I have a soul but no spirit. What am I?", "music", "🎵 soul genre"),
+        r("I have a heart but no love. What am I?", "card", "🃏 heart suit"),
+        r("I have a key but no lock. What am I?", "map", "🗺️ legend key"),
+        r("I have a code but no lock. What am I?", "language", "🔤 communication"),
+        r("I have a password but no door. What am I?", "computer", "💻 login"),
+        r("I have a virus but no sickness. What am I?", "computer", "💻 malware"),
+        r("I have a worm but no soil. What am I?", "computer", "💻 computer worm"),
+        r("I have a bug but no insect. What am I?", "software", "🐛 glitch")
+      ]);
+
+      // ---------- GAME STATE ----------
+      let currentLevel = 0;          // 0-indexed
+      let currentQuestion = 0;       // 0-indexed within level
+      let totalLevels = LEVELS.length;
+
+      const levelDisplay = document.getElementById('levelDisplay');
+      const progressDots = document.getElementById('progressDots');
+      const riddleCounter = document.getElementById('riddleCounter');
+      const riddleText = document.getElementById('riddleText');
+      const hintText = document.getElementById('hintText');
       const answerInput = document.getElementById('answerInput');
       const checkBtn = document.getElementById('checkBtn');
       const feedback = document.getElementById('feedback');
+      const levelStatus = document.getElementById('levelStatus');
+      const resetGameBtn = document.getElementById('resetGameBtn');
 
-      // The riddle solution: "battery" (also accepts "cell", "phone battery", "battery cell")
-      const validAnswers = ['battery', 'cell', 'phone battery', 'battery cell', 'बैटरी', 'batterie', 'batería'];
-
-      // Easter egg / extra clue from the image: Bone Treasure, Spencer, Sarah → but answer stays battery.
-      function checkAnswer(userAnswer) {
-        if (!userAnswer) return null;
-        const normalized = userAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
-        // direct match
-        for (let valid of validAnswers) {
-          if (normalized === valid || normalized.includes(valid) && valid.length > 3) {
-            return 'correct';
-          }
-        }
-        // if it contains "phone" and "battery" separately
-        if (normalized.includes('phone') && normalized.includes('battery')) return 'correct';
-        if (normalized.includes('batter') || normalized.includes('बैट')) return 'correct';
-        return 'wrong';
+      // ---------- HELPER FUNCTIONS ----------
+      function getCurrentRiddle() {
+        return LEVELS[currentLevel][currentQuestion];
       }
 
-      function setFeedback(state, message) {
-        feedback.className = 'feedback ' + state;
-        feedback.textContent = message;
+      function renderProgressDots() {
+        let html = '';
+        const total = LEVELS[currentLevel].length;
+        for (let i = 0; i < total; i++) {
+          let cls = 'step-dot';
+          if (i < currentQuestion) cls += ' done';
+          else if (i === currentQuestion) cls += ' active';
+          // if wrong, we add wrong class separately via update
+          html += `<div class="${cls}" data-index="${i}">${i+1}</div>`;
+        }
+        progressDots.innerHTML = html;
       }
 
-      function handleSubmit() {
-        const raw = answerInput.value;
-        if (!raw.trim()) {
-          setFeedback('neutral', '✏️ enter your guess (hint: it’s not alive but can “die”)');
-          return;
-        }
-        const result = checkAnswer(raw);
-        if (result === 'correct') {
-          setFeedback('correct', '✅ Correct! “Battery” — not alive, but it can die. ⚡');
-          // extra style flourish
-          feedback.style.transition = '0.2s';
-        } else if (result === 'wrong') {
-          setFeedback('wrong', '❌ Not that. Think about what runs out of “life” in a phone...');
-        } else {
-          setFeedback('neutral', '🤔 try again. hint: it powers something, and can “die”');
-        }
-      }
+      function updateUI() {
+        const levelNum = currentLevel + 1;
+        const totalQ = LEVELS[currentLevel].length;
+        const qNum = currentQuestion + 1;
 
-      // Event listeners
-      checkBtn.addEventListener('click', handleSubmit);
+        levelDisplay.textContent = `🏆 LEVEL ${levelNum} / ${totalLevels}`;
+        riddleCounter.textContent = `Q. ${qNum} / ${totalQ}`;
+        levelStatus.textContent = `⏳ level ${levelNum} · ${currentQuestion}/${totalQ}`;
 
-      answerInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          handleSubmit();
-        }
-      });
+        const riddle = getCurrentRiddle();
+        riddleText.innerHTML = riddle.question;
+        hintText.textContent = `💡 ${riddle.hint || 'think carefully'}`;
 
-      // reset hint (just sets neutral feedback)
-      document.getElementById('resetHintBtn').addEventListener('click', () => {
-        setFeedback('neutral', '💡 think about what can “die” but isn’t alive');
+        renderProgressDots();
+        // feedback stays as is
         answerInput.value = '';
         answerInput.focus();
-      });
+      }
 
-      // extra: focus input on load
-      window.addEventListener('load', () => {
-        answerInput.focus();
-        // Prefill with a subtle hint? No, keep clean.
-      });
+      function showFeedback(state, msg) {
+        feedback.className = 'feedback ' + state;
+        feedback.textContent = msg;
+      }
 
-      // also if user types "bone" or "treasure" we give a subtle nudge
-      answerInput.addEventListener('input', function() {
-        const val = this.value.trim().toLowerCase();
-        if (val.includes('bone') || val.includes('treasure') || val.includes('spencer') || val.includes('sarah')) {
-          // only if not already correct/wrong
-          if (!feedback.classList.contains('correct') && !feedback.classList.contains('wrong')) {
-            setFeedback('neutral', '🧩 those are clues from the image — but the answer is simpler');
+      // ---------- GAME OVER / RESET ----------
+      function gameOver() {
+        showFeedback('wrong', '💀 GAME OVER! You made a mistake. Restarting level...');
+        // reset current level (restart from first question of same level)
+        currentQuestion = 0;
+        // also reset progress dots
+        updateUI();
+        // clear any wrong dots
+        document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('wrong'));
+        showFeedback('neutral', '🔄 level restarted. Try again!');
+      }
+
+      function levelComplete() {
+        if (currentLevel === totalLevels - 1) {
+          // won the game!
+          showFeedback('level-done', '🎉🏆 YOU WIN! All 15 levels completed! 🎉🏆');
+          riddleText.textContent = '🏁 CONGRATULATIONS! You solved all riddles!';
+          hintText.textContent = '🌟 you are a true riddle master!';
+          // disable input?
+          answerInput.disabled = true;
+          checkBtn.disabled = true;
+          levelStatus.textContent = '🏆 COMPLETE!';
+          return true;
+        } else {
+          // move to next level
+          currentLevel++;
+          currentQuestion = 0;
+          showFeedback('level-done', `✅ Level ${currentLevel} complete! Moving to Level ${currentLevel+1}...`);
+          updateUI();
+          // re-enable if disabled
+          answerInput.disabled = false;
+          checkBtn.disabled = false;
+          return false;
+        }
+      }
+
+      // ---------- CHECK ANSWER ----------
+      function handleAnswer() {
+        // if game already won, block
+        if (answerInput.disabled) return;
+
+        const raw = answerInput.value.trim();
+        if (!raw) {
+          showFeedback('neutral', '✏️ type your answer first');
+          return;
+        }
+
+        const riddle = getCurrentRiddle();
+        const correct = riddle.answer;
+        const userAns = raw.toLowerCase().trim();
+
+        // check if answer matches (exact or contains if longer)
+        let isCorrect = false;
+        if (userAns === correct) isCorrect = true;
+        else if (correct.length > 3 && userAns.includes(correct)) isCorrect = true;
+        else if (userAns.length > 3 && correct.includes(userAns)) isCorrect = true;
+        // extra: if answer is 'battery' and riddle answer is 'battery' etc
+
+        if (isCorrect) {
+          // correct
+          showFeedback('correct', '✅ Correct! Well done!');
+          // mark dot as done
+          const dots = document.querySelectorAll('.step-dot');
+          if (dots[currentQuestion]) {
+            dots[currentQuestion].classList.remove('active');
+            dots[currentQuestion].classList.add('done');
           }
-        }
-        // if they type "phone" alone
-        if (val === 'phone' || val === 'फोन') {
-          setFeedback('neutral', '📱 phone needs something to live...');
-        }
-      });
 
-      // additional hidden easter egg: if someone types "Bone Treasure" it gives a wink
-      // but we handle it inside input.
-    })();
-  </script>
-</body>
-</html>
+          // move to next question
+          currentQuestion++;
+          const totalQ = LEVELS[currentLevel].length;
+          if (currentQuestion >= totalQ) {
+            // level complete
+            const completed = levelComplete();
+            if (completed) {
+              // win state
+              return;
+            }
+          } else {
+            // load next riddle
+            updateUI();
+            showFeedback('neutral', `✨ next question (${currentQuestion+1}/${totalQ})`);
+          }
+        } else {
+          // WRONG -> game over (level restart)
+          // mark wrong dot
+          const dots = document.querySelectorAll('.step-dot');
+          if (dots[currentQuestion]) {
+            dots[currentQuestion].classList.remove('active');
+            dots[currentQuestion].classList.add('wrong');
+          }
+          // show wrong feedback
+          showFeedback('wrong', `❌ Wrong! The correct answer was: "${correct}"`);
+          // reset level after short delay
+          setTimeout(() => {
+            gameOver();
+          }, 1200);
+        }
+      }
+
+      // ---------- RESET GAME ----------
+      function resetGame() {
+        currentLevel = 0;
+        currentQuestion = 0;
+        answerInput.disabled = false;
+        checkBtn.disabled = false;
+        updateUI();
+        showFeedback('neutral', '🔄 game restarted. Good
